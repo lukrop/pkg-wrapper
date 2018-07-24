@@ -135,7 +135,7 @@ case "$ACTION" in
         $orphans_cmd "$@"
         ;;
     *)
-        echo "Unknown option: $*"
+        echo "Unknown action: $*"
         print_help
         ;;
 esac
