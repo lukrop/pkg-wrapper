@@ -32,6 +32,9 @@ ACTION=""
 # Check if package manager is known
 if [ -z ${PKG_PACKAGE_MANAGER} ]; then
     echo "PKG_PACKAGE_MANAGER is not set. Please set it accordingly!"
+    echo ""
+    echo "Supported package managers:"
+    echo "      apt-get, yaourt, xbps"
     exit 1
 fi
 
@@ -72,7 +75,22 @@ ACTION=$1
 shift
 
 case "$PKG_PACKAGE_MANAGER" in
-    apt|dpkg)
+    apt-get)
+        install_cmd="apt-get install"
+        remove_cmd="apt-get remove"
+        search_cmd="apt-cache search"
+        upgrade_cmd="apt-get upgrade"
+        update_cmd="apt-get update"
+        list_cmd="dpkg --get-selections | grep -v deinstall"
+        info_cmd="dpkg -s"
+        which_cmd="apt-file search"
+        files_cmd="dpkg-query -L"
+        clean_cmd="apt-get clean"
+        hold_cmd="apt-get hold"
+        unhold_cmd="apt-get unhold"
+        deps_cmd="apt-cache depends"
+        revdeps_cmd="apt-cache rdepends"
+        orphans_cmd="deborphan"
         ;;
     yaourt)
         install_cmd="yaourt -S"
