@@ -1,6 +1,33 @@
 #!/bin/sh
+#
+# pkg-wrapper
+#
+# Copyright (c) 2018 Lukas Kropatschek
+# Copyright (c) 2018 Konrad Lother
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+
+# Do not change the lines below, unless you know what you do
 
 VERSION="0.1"
+ACTION=""
 
 # Check if package manager is known
 if [ -z ${PKG_PACKAGE_MANAGER} ]; then
@@ -9,7 +36,7 @@ if [ -z ${PKG_PACKAGE_MANAGER} ]; then
 fi
 
 action_not_supported() {
-    echo "action not supported for ${PKG_PACKAGE_MANAGER}"
+    echo "action ${ACTION} not supported for ${PKG_PACKAGE_MANAGER}"
     exit 1
 }
 
@@ -40,6 +67,9 @@ if [ $# -lt 1 ]; then
     print_help
     exit 0
 fi
+
+ACTION=$1
+shift
 
 case "$PKG_PACKAGE_MANAGER" in
     apt|dpkg)
@@ -81,9 +111,6 @@ case "$PKG_PACKAGE_MANAGER" in
         orphans_cmd="xbps-query -O"
         ;;
 esac
-
-ACTION=$1
-shift
 
 case "$ACTION" in
     help)
