@@ -19,6 +19,7 @@ print_help() {
     echo " remove         remove package with PKGNAME."
     echo " search         search for PKGNAME in name/description."
     echo " upgrade        upgrade PKGNAME or all packages."
+    echo " list           list all installed packages."
     echo " info           show information for package PKGNAME."
     echo " which          check to which package FILE belongs."
     echo " files          list files contained in package PKGNAME."
@@ -52,6 +53,7 @@ case "$PKG_PACKAGE_MANAGER" in
         search_cmd="yaourt -Ss"
         upgrade_cmd="yaourt -Syu"
         update_cmd="yaourt -Syy"
+        list_cmd="yaourt -Qqe"
         info_cmd="yaourt -Qi"
         which_cmd="yaourt -Qo"
         files_cmd="yaourt -Ql"
@@ -70,6 +72,7 @@ case "$PKG_PACKAGE_MANAGER" in
         search_cmd="xbps-query -Rs"
         upgrade_cmd="xbps-install -Su"
         update_cmd="xbps-install -S"
+        list_cmd="xbps-query -l"
         info_cmd="xbps-query"
         which_cmd="xbps-query -o"
         files_cmd="xbps-query -f"
@@ -100,6 +103,9 @@ case "$1" in
         ;;
     upgrade)
         shift; $upgrade_cmd "$@"
+        ;;
+    list)
+        shift; $list_cmd "$@"
         ;;
     info)
         shift; $info_cmd "$@"
