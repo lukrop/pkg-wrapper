@@ -135,8 +135,8 @@ case "$ACTION" in
         $orphans_cmd "$@"
         ;;
     *)
-        echo "Unknown action: $*"
-        print_help
+        echo "pkg: unknown action: ${ACTION}"
+        exit 1
         ;;
 esac
 
