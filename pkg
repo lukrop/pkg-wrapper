@@ -47,6 +47,7 @@ case "$PKG_PACKAGE_MANAGER" in
         remove_cmd="xbps-remove"
         search_cmd="xbps-query -Rs"
         upgrade_cmd="xbps-install -Su"
+        update_cmd="xbps-install -S"
         info_cmd="xbps-query"
         which_cmd="xbps-query -o"
         files_cmd="xbps-query -f"
@@ -55,7 +56,7 @@ case "$PKG_PACKAGE_MANAGER" in
         unhold_cmd="xbps-pkgdb -m unhold"
         deps_cmd="xbps-query -Rx"
         revdeps_cmd="xbps-query -RX"
-        orphan_cmd="xbps-query -O"
+        orphans_cmd="xbps-query -O"
         ;;
 esac
 
@@ -64,59 +65,62 @@ case "$1" in
         print_help
         ;;
     install)
-        shift; xbps-install -S "$@"
+        shift; $install_cmd "$@"
         ;;
     remove)
-        shift; xbps-remove "$@"
+        shift; $remove_cmd "$@"
         ;;
     search)
-        shift; xbps-query -Rs "$@"
+        shift; $search_cmd "$@"
+        ;;
+    update)
+        shift; $update_cmd "$@"
         ;;
     upgrade)
-        shift; xbps-install -Su "$@"
+        shift; $upgrade_cmd "$@"
         ;;
     info)
-        shift; xbps-query "$@"
+        shift; $info_cmd "$@"
         ;;
     which)
-        shift; xbps-query -o "$@"
+        shift; $which_cmd "$@"
         ;;
     files)
-        shift; xbps-query -f "$@"
+        shift; $files_cmd "$@"
         ;;
     clean)
-        shift; xbps-remove -O "$@"
+        shift; $clean_cmd "$@"
         ;;
     hold)
-        shift; xbps-pkgdb -m hold "$@"
+        shift; $hold_cmd "$@"
         ;;
     unhold)
-        shift; xbps-pkgdb -m unhold "$@"
+        shift; $unhold_cmd "$@"
         ;;
     deps|dependencies|depends-on)
-        shift; xbps-query -Rx "$@"
+        shift; $deps_cmd "$@"
         ;;
     revdeps|reverse-dependencies|required-by)
-        shift; xbps-query -RX "$@"
+        shift; $revdeps_cmd "$@"
         ;;
     orphans)
-        shift; xbps-query -O "$@"
+        shift; $orphans_cmd "$@"
         ;;
-    db)
-        shift; xbps-pkgdb "$@"
-        ;;
-    alternatives)
-        shift; xbps-alternatives "$@"
-        ;;
-    query)
-        shift; xbps-query "$@"
-        ;;
-    reconfigure)
-        shift; xbps-reconfigure "$@"
-        ;;
-    rindex)
-        shift; xbps-rindex "$@"
-        ;;
+#    db)
+#        shift; xbps-pkgdb "$@"
+#        ;;
+#    alternatives)
+#        shift; xbps-alternatives "$@"
+#        ;;
+#    query)
+#        shift; xbps-query "$@"
+#        ;;
+#    reconfigure)
+#        shift; xbps-reconfigure "$@"
+#        ;;
+#    rindex)
+#        shift; xbps-rindex "$@"
+#        ;;
     *)
         echo "Unknown option: $*"
         print_help
