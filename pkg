@@ -6,6 +6,11 @@ if [ -z ${PKG_PACKAGE_MANAGER} ]; then
     exit 0
 fi
 
+method_not_supported() {
+        echo "method not supported for ${PKG_PACKAGE_MANAGER}"
+        exit 1
+}
+
 print_help() {
     echo "Usage: pkg ACTION|WRAPPER [PKGNAME|FILE]\n"
     echo "ACTIONS:"
@@ -37,8 +42,25 @@ if [ $# -lt 1 ]; then
     exit 0
 fi
 
+
 case "$PKG_PACKAGE_MANAGER" in
     apt|dpkg)
+        ;;
+    yaourt)
+        install_cmd="yaourt -S"
+        remove_cmd="yaourt -R"
+        search_cmd="yaourt -Ss"
+        upgrade_cmd="yaourt -Syu"
+        update_cmd="yaourt -Syy"
+        info_cmd="yaourt -Qi"
+        which_cmd="yaourt -Qo"
+        files_cmd="yaourt -Ql"
+        clean_cmd="yaourt -Scc"
+        hold_cmd="method_not_supported"
+        unhold_cmd="method_not_supported "
+        deps_cmd="yaourt -Sq --depends"
+        revdeps_cmd="yaourt -Qi"
+        orphans_cmd="yaourt -Qtd"
         ;;
     pacman)
         ;;
