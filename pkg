@@ -1,18 +1,23 @@
 #!/bin/sh
 
+VERSION="0.1"
+
 # Check if package manager is known
 if [ -z ${PKG_PACKAGE_MANAGER} ]; then
     echo "PKG_PACKAGE_MANAGER is not set. Please set it accordingly!"
     exit 0
 fi
 
-method_not_supported() {
-        echo "method not supported for ${PKG_PACKAGE_MANAGER}"
+action_not_supported() {
+        echo "action not supported for ${PKG_PACKAGE_MANAGER}"
         exit 1
 }
 
 print_help() {
-    echo "Usage: pkg ACTION|WRAPPER [PKGNAME|FILE]\n"
+        echo "pkg-wrapper ${VERSION} Copyright 2018 (C) Lukas Kropatschek"
+    echo ""
+    echo "Usage: pkg ACTION [PKGNAME|FILE]"
+    echo ""
     echo "ACTIONS:"
     echo " help           print this help message."
     echo " install        install package with PKGNAME."
@@ -29,20 +34,12 @@ print_help() {
     echo " deps           list dependencies for package PKGNAME"
     echo " revdeps        list packages which need package PKGNAME."
     echo " orphans        list orphaned packages."
-    echo " "
-    echo "WRAPPERS:"
-    echo " db             calls xbps-pkgdb."
-    echo " alternatives   calls xbps-alternatives."
-    echo " query          calls xbps-query."
-    echo " reconfigure    calls xbps-reconfigure."
-    echo " rindex         calls xbps-rindex."
 }
 
 if [ $# -lt 1 ]; then
     print_help
     exit 0
 fi
-
 
 case "$PKG_PACKAGE_MANAGER" in
     apt|dpkg)
@@ -58,8 +55,8 @@ case "$PKG_PACKAGE_MANAGER" in
         which_cmd="yaourt -Qo"
         files_cmd="yaourt -Ql"
         clean_cmd="yaourt -Scc"
-        hold_cmd="method_not_supported"
-        unhold_cmd="method_not_supported "
+        hold_cmd="action_not_supported"
+        unhold_cmd="action_not_supported "
         deps_cmd="yaourt -Sq --depends"
         revdeps_cmd="yaourt -Qi"
         orphans_cmd="yaourt -Qtd"
@@ -85,10 +82,10 @@ case "$PKG_PACKAGE_MANAGER" in
         ;;
 esac
 
-METHOD=$1
+ACTION=$1
 shift
 
-case "$METHOD" in
+case "$ACTION" in
     help)
         print_help
         ;;
@@ -137,21 +134,6 @@ case "$METHOD" in
     orphans)
         $orphans_cmd "$@"
         ;;
-#    db)
-#        shift; xbps-pkgdb "$@"
-#        ;;
-#    alternatives)
-#        shift; xbps-alternatives "$@"
-#        ;;
-#    query)
-#        shift; xbps-query "$@"
-#        ;;
-#    reconfigure)
-#        shift; xbps-reconfigure "$@"
-#        ;;
-#    rindex)
-#        shift; xbps-rindex "$@"
-#        ;;
     *)
         echo "Unknown option: $*"
         print_help
