@@ -9,12 +9,12 @@ if [ -z ${PKG_PACKAGE_MANAGER} ]; then
 fi
 
 action_not_supported() {
-        echo "action not supported for ${PKG_PACKAGE_MANAGER}"
-        exit 1
+    echo "action not supported for ${PKG_PACKAGE_MANAGER}"
+    exit 1
 }
 
 print_help() {
-        echo "pkg-wrapper ${VERSION} Copyright 2018 (C) Lukas Kropatschek"
+    echo "pkg-wrapper ${VERSION} Copyright 2018 (C) Lukas Kropatschek"
     echo ""
     echo "Usage: pkg ACTION [PKGNAME|FILE]"
     echo ""
