@@ -85,54 +85,57 @@ case "$PKG_PACKAGE_MANAGER" in
         ;;
 esac
 
-case "$1" in
+METHOD=$1
+shift
+
+case "$METHOD" in
     help)
         print_help
         ;;
     install)
-        shift; $install_cmd "$@"
+        $install_cmd "$@"
         ;;
     remove)
-        shift; $remove_cmd "$@"
+        $remove_cmd "$@"
         ;;
     search)
-        shift; $search_cmd "$@"
+        $search_cmd "$@"
         ;;
     update)
-        shift; $update_cmd "$@"
+        $update_cmd "$@"
         ;;
     upgrade)
-        shift; $upgrade_cmd "$@"
+        $upgrade_cmd "$@"
         ;;
     list)
-        shift; $list_cmd "$@"
+        $list_cmd "$@"
         ;;
     info)
-        shift; $info_cmd "$@"
+        $info_cmd "$@"
         ;;
     which)
-        shift; $which_cmd "$@"
+        $which_cmd "$@"
         ;;
     files)
-        shift; $files_cmd "$@"
+        $files_cmd "$@"
         ;;
     clean)
-        shift; $clean_cmd "$@"
+        $clean_cmd "$@"
         ;;
     hold)
-        shift; $hold_cmd "$@"
+        $hold_cmd "$@"
         ;;
     unhold)
-        shift; $unhold_cmd "$@"
+        $unhold_cmd "$@"
         ;;
     deps|dependencies|depends-on)
-        shift; $deps_cmd "$@"
+        $deps_cmd "$@"
         ;;
     revdeps|reverse-dependencies|required-by)
-        shift; $revdeps_cmd "$@"
+        $revdeps_cmd "$@"
         ;;
     orphans)
-        shift; $orphans_cmd "$@"
+        $orphans_cmd "$@"
         ;;
 #    db)
 #        shift; xbps-pkgdb "$@"
