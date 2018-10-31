@@ -38,6 +38,10 @@ if [ -z ${PKG_PACKAGE_MANAGER} ]; then
     exit 1
 fi
 
+if [ "${PKG_USE_SUDO}" = "1" ]; then
+   prefix_cmd="sudo"
+fi
+
 action_not_supported() {
     echo "action ${ACTION} not supported for ${PKG_PACKAGE_MANAGER}"
     exit 1
@@ -81,7 +85,7 @@ case "$PKG_PACKAGE_MANAGER" in
         search_cmd="apt-cache search"
         upgrade_cmd="apt-get upgrade"
         update_cmd="apt-get update"
-        list_cmd="dpkg --get-selections | grep -v deinstall"
+        list_cmd="dpkg -l"
         info_cmd="dpkg -s"
         which_cmd="apt-file search"
         files_cmd="dpkg-query -L"
@@ -135,49 +139,49 @@ case "$ACTION" in
         print_help
         ;;
     install)
-        $install_cmd "$@"
+        $prefix_cmd $install_cmd "$@"
         ;;
     remove)
-        $remove_cmd "$@"
+        $prefix_cmd $remove_cmd "$@"
         ;;
     search)
-        $search_cmd "$@"
+        $prefix_cmd $search_cmd "$@"
         ;;
     update)
-        $update_cmd "$@"
+        $prefix_cmd $update_cmd "$@"
         ;;
     upgrade)
-        $upgrade_cmd "$@"
+        $prefix_cmd $upgrade_cmd "$@"
         ;;
     list)
-        $list_cmd "$@"
+        $prefix_cmd $list_cmd "$@"
         ;;
     info)
-        $info_cmd "$@"
+        $prefix_cmd $info_cmd "$@"
         ;;
     which)
-        $which_cmd "$@"
+        $prefix_cmd $which_cmd "$@"
         ;;
     files)
-        $files_cmd "$@"
+        $prefix_cmd $files_cmd "$@"
         ;;
     clean)
-        $clean_cmd "$@"
+        $prefix_cmd $clean_cmd "$@"
         ;;
     hold)
-        $hold_cmd "$@"
+        $prefix_cmd $hold_cmd "$@"
         ;;
     unhold)
-        $unhold_cmd "$@"
+        $prefix_cmd $unhold_cmd "$@"
         ;;
     deps|dependencies|depends-on)
-        $deps_cmd "$@"
+        $prefix_cmd $deps_cmd "$@"
         ;;
     revdeps|reverse-dependencies|required-by)
-        $revdeps_cmd "$@"
+        $prefix_cmd $revdeps_cmd "$@"
         ;;
     orphans)
-        $orphans_cmd "$@"
+        $prefix_cmd $orphans_cmd "$@"
         ;;
     *)
         echo "pkg: unknown action: ${ACTION}"
