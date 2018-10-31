@@ -23,6 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
+set -e
 
 # Do not change the lines below, unless you know what you do
 
@@ -31,11 +32,24 @@ ACTION=""
 
 # Check if package manager is known
 if [ -z ${PKG_PACKAGE_MANAGER} ]; then
-    echo "PKG_PACKAGE_MANAGER is not set. Please set it accordingly!"
-    echo ""
-    echo "Supported package managers:"
-    echo "      apt-get, yaourt, xbps"
-    exit 1
+    # debian based
+    if [ -x "/usr/bin/apt" ]; then
+        PKG_PACKAGE_MANAGER="apt"
+
+    # arch based
+    elif [ -x "/usr/bin/yaourt" ]; then
+        PKG_PACKAGE_MANAGER="yaourt"
+    elif [ -x "/usr/bin/pacman" ]; then
+        PKG_PACKAGE_MANAGER="pacman"
+
+    # could not auto-guess
+    else
+        echo "PKG_PACKAGE_MANAGER is not set and could not be guessed. Please set it accordingly!"
+        echo ""
+        echo "Supported package managers:"
+        echo "      apt, pacman/yaourt, xbps"
+        exit 1
+    fi
 fi
 
 if [ "${PKG_USE_SUDO}" = "1" ]; then
@@ -79,19 +93,19 @@ ACTION=$1
 shift
 
 case "$PKG_PACKAGE_MANAGER" in
-    apt-get)
-        install_cmd="apt-get install"
-        remove_cmd="apt-get remove"
+    apt)
+        install_cmd="apt install"
+        remove_cmd="apt remove"
         search_cmd="apt-cache search"
-        upgrade_cmd="apt-get upgrade"
-        update_cmd="apt-get update"
+        upgrade_cmd="apt upgrade"
+        update_cmd="apt update"
         list_cmd="dpkg -l"
         info_cmd="dpkg -s"
         which_cmd="apt-file search"
         files_cmd="dpkg-query -L"
-        clean_cmd="apt-get clean"
-        hold_cmd="apt-get hold"
-        unhold_cmd="apt-get unhold"
+        clean_cmd="apt clean"
+        hold_cmd="apt hold"
+        hold_cmd="apt unhold"
         deps_cmd="apt-cache depends"
         revdeps_cmd="apt-cache rdepends"
         orphans_cmd="deborphan"
@@ -114,6 +128,8 @@ case "$PKG_PACKAGE_MANAGER" in
         orphans_cmd="yaourt -Qtd"
         ;;
     pacman)
+        echo "pacman not yet implemented, please fix!"
+        exit 1
         ;;
     xbps)
         install_cmd="xbps-install -S"
