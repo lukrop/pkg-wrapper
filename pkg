@@ -128,7 +128,21 @@ case "$PKG_PACKAGE_MANAGER" in
         orphans_cmd="yaourt -Qtd"
         ;;
     pacman)
-        echo "pacman not yet implemented, please fix!"
+        install_cmd="pacman -S"
+        remove_cmd="pacman -R"
+        search_cmd="pacman -Ss"
+        upgrade_cmd="pacman -Syu"
+        update_cmd="pacman -Syy"
+        list_cmd="pacman -Qqe"
+        info_cmd="pacman -Qi"
+        which_cmd="pacman -Qo"
+        files_cmd="pacman -Ql"
+        clean_cmd="pacman -Scc"
+        hold_cmd="action_not_supported"
+        unhold_cmd="action_not_supported "
+        deps_cmd="pacman -Sq --depends"
+        revdeps_cmd="pacman -Qi"
+        orphans_cmd="pacman -Qtd"
         exit 1
         ;;
     xbps)
