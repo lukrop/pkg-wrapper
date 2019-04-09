@@ -37,6 +37,8 @@ if [ -z ${PKG_PACKAGE_MANAGER} ]; then
         PKG_PACKAGE_MANAGER="apt"
 
     # arch based
+    elif [ -x "/usr/bin/yay" ]; then
+        PKG_PACKAGE_MANAGER="yay"
     elif [ -x "/usr/bin/yaourt" ]; then
         PKG_PACKAGE_MANAGER="yaourt"
     elif [ -x "/usr/bin/pacman" ]; then
@@ -62,7 +64,7 @@ action_not_supported() {
 }
 
 print_help() {
-    echo "pkg-wrapper ${VERSION} Copyright 2018 (C) Lukas Kropatschek"
+    echo "pkg-wrapper ${VERSION} Copyright 2018 (C) Lukas Kropatschek, Konrad Lother"
     echo ""
     echo "Usage: pkg ACTION [PKGNAME|FILE]"
     echo ""
@@ -110,6 +112,23 @@ case "$PKG_PACKAGE_MANAGER" in
         revdeps_cmd="apt-cache rdepends"
         orphans_cmd="deborphan"
         ;;
+    yay)
+        install_cmd="yay -S"
+        remove_cmd="pacman -R"
+        search_cmd="yay -Ss"
+        upgrade_cmd="yay -Syu"
+        update_cmd="pacman -Syy"
+        list_cmd="pacman -Qqe"
+        info_cmd="pacman -Qi"
+        which_cmd="pacman -Qo"
+        files_cmd="pacman -Ql"
+        clean_cmd="pacman -Scc"
+        hold_cmd="action_not_supported"
+        unhold_cmd="action_not_supported "
+        deps_cmd="pacman -Sq --depends"
+        revdeps_cmd="pacman -Qi"
+        orphans_cmd="pacman -Qtd"
+	;;
     yaourt)
         install_cmd="yaourt -S"
         remove_cmd="yaourt -R"
@@ -217,4 +236,3 @@ case "$ACTION" in
         exit 1
         ;;
 esac
-
