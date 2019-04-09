@@ -143,7 +143,6 @@ case "$PKG_PACKAGE_MANAGER" in
         deps_cmd="pacman -Sq --depends"
         revdeps_cmd="pacman -Qi"
         orphans_cmd="pacman -Qtd"
-        exit 1
         ;;
     xbps)
         install_cmd="xbps-install -S"
