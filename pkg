@@ -44,6 +44,10 @@ if [ -z ${PKG_PACKAGE_MANAGER} ]; then
     elif [ -x "/usr/bin/pacman" ]; then
         PKG_PACKAGE_MANAGER="pacman"
 
+    # void linux
+    elif  [ -x "/usr/bin/xbps-install" ]; then
+        PKG_PACKAGE_MANAGER="xbps"
+
     # could not auto-guess
     else
         echo "PKG_PACKAGE_MANAGER is not set and could not be guessed. Please set it accordingly!"
