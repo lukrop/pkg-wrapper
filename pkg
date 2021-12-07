@@ -168,7 +168,7 @@ case "$PKG_PACKAGE_MANAGER" in
         orphans_cmd="pacman -Qtd"
         ;;
     xbps)
-        install_cmd="xbps-install -S"
+        install_cmd="xbps-install"
         remove_cmd="xbps-remove"
         search_cmd="xbps-query -Rs"
         upgrade_cmd="xbps-install -Su"
